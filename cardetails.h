@@ -192,9 +192,9 @@ void get_accessories()
 //Function to calculate the discount
 void get_dealerDiscount()
 {
+    string resp;
     if(accs_opt == true || insurance_opt == true)
     {
-        string resp;
         double discount;
         cout <<"Dealer Discount: ";
         cin >> resp;
@@ -232,37 +232,70 @@ void get_dealerDiscount()
         }
         else
         {
-            //resp.erase(std::remove(resp.begin(), resp.end(), ','), resp.end());
             for (int i = 0, len = resp.size(); i < len; i++)
-                {
-                    if (ispunct(resp[i]))
-                    {
-                        resp.erase(i--, 1);
-                        len = resp.size();
-                    }
-                }
-            dealer_discount_rs = stoi(resp);
-            while(dealer_discount_rs > 30000)
             {
-                printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
-                cin >> resp;
-                //resp.erase(std::remove(resp.begin(), resp.end(), ','), resp.end());
-                for (int i = 0, len = resp.size(); i < len; i++)
+                if (ispunct(resp[i]))
                 {
-                    if (ispunct(resp[i]))
-                    {
-                        resp.erase(i--, 1);
-                        len = resp.size();
-                    }
+                    resp.erase(i--, 1);
+                    len = resp.size();
                 }
-                dealer_discount_rs = stoi(resp);
-                continue;
             }
-            discounted_rs = dealer_discount_rs;
+        dealer_discount_rs = stoi(resp);
+        while(dealer_discount_rs > 30000)
+        {
+            printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
+            cin >> resp;
+            for (int i = 0, len = resp.size(); i < len; i++)
+            {
+                if (ispunct(resp[i]))
+                {
+                    resp.erase(i--, 1);
+                    len = resp.size();
+                }
+            }
+            dealer_discount_rs = stoi(resp);
+            continue;
         }
-        printf("\n");
+        discounted_rs = dealer_discount_rs;
+        }
     }
+    else
+    {
+        cout <<"Dealer Discount: ";
+        cin >> resp;
+
+        for (int i = 0, len = resp.size(); i < len; i++)
+        {
+            if (ispunct(resp[i]))
+            {
+                resp.erase(i--, 1);
+                len = resp.size();
+            }
+        }
+        dealer_discount_rs = stoi(resp);
+
+        while(dealer_discount_rs > 0)
+        {
+            printf("Any one of the additional features have to be added and 0 discount has to be added. \n");
+            cout << "Dealer Discount: ";
+            cin >> resp;
+            for (int i = 0, len = resp.size(); i < len; i++)
+            {
+                if (ispunct(resp[i]))
+                {
+                    resp.erase(i--, 1);
+                    len = resp.size();
+                }
+            }
+            dealer_discount_rs = stoi(resp);
+        }
+        discounted_rs = 0;
+    }
+    printf("\n");
 }
+
+
+
 
 //Function to print the final price
 void print_finalPrice()
