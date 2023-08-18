@@ -27,9 +27,9 @@ vehicle_model car_model_enum;
 map<vehicle_model,double> vehicle_db;
 
 const int Rto  = 113990;
-const int Ins  = 47300;
-const int Tcs  = 11000;
-const int Acc  = 15000;
+const int Ins  =  47300;
+const int Tcs  =  11000;
+const int Acc  =  15000;
 
 string       car_model;
 bool         insurance_opt                = false;
