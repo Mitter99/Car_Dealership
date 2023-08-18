@@ -188,6 +188,19 @@ void get_accessories()
     printf("\n");
 }
 
+string remove_punc(string resp)
+{
+    for (int i = 0, len = resp.size(); i < len; i++)
+    {
+        if (ispunct(resp[i]))
+        {
+            resp.erase(i--, 1);
+            len = resp.size();
+        }
+    }
+    return resp;
+}
+
 //Function to calculate the discount
 void get_dealerDiscount()
 {
@@ -199,31 +212,14 @@ void get_dealerDiscount()
         cin >> resp;
         if(resp[resp.length()-1] == '%')
         {
-            //resp.erase(std::remove(resp.begin(), resp.end(), '%'), resp.end());
-            for (int i = 0, len = resp.size(); i < len; i++)
-            {
-                if (ispunct(resp[i]))
-                {
-                    resp.erase(i--, 1);
-                    len = resp.size();
-                }
-            }
-            dealer_discount_per = stoi(resp);
+            dealer_discount_per = stoi(remove_punc(resp));
             discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
             while(discount > 30000)
             {
                 printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
                 cin >> resp;
-                //resp.erase(std::remove(resp.begin(), resp.end(), '%'), resp.end());
-                for (int i = 0, len = resp.size(); i < len; i++)
-                {
-                    if (ispunct(resp[i]))
-                    {
-                        resp.erase(i--, 1);
-                        len = resp.size();
-                    }
-                }
-                dealer_discount_per = stoi(resp);
+
+                dealer_discount_per = stoi(remove_punc(resp));
                 discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
                 continue;
             }
@@ -231,30 +227,15 @@ void get_dealerDiscount()
         }
         else
         {
-            for (int i = 0, len = resp.size(); i < len; i++)
+            dealer_discount_rs = stoi(remove_punc(resp));
+            while(dealer_discount_rs > 30000)
             {
-                if (ispunct(resp[i]))
-                {
-                    resp.erase(i--, 1);
-                    len = resp.size();
-                }
+                printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
+                cin >> resp;
+
+                dealer_discount_rs = stoi(remove_punc(resp));
+                continue;
             }
-        dealer_discount_rs = stoi(resp);
-        while(dealer_discount_rs > 30000)
-        {
-            printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
-            cin >> resp;
-            for (int i = 0, len = resp.size(); i < len; i++)
-            {
-                if (ispunct(resp[i]))
-                {
-                    resp.erase(i--, 1);
-                    len = resp.size();
-                }
-            }
-            dealer_discount_rs = stoi(resp);
-            continue;
-        }
         discounted_rs = dealer_discount_rs;
         }
     }
@@ -263,30 +244,14 @@ void get_dealerDiscount()
         cout <<"Dealer Discount: ";
         cin >> resp;
 
-        for (int i = 0, len = resp.size(); i < len; i++)
-        {
-            if (ispunct(resp[i]))
-            {
-                resp.erase(i--, 1);
-                len = resp.size();
-            }
-        }
-        dealer_discount_rs = stoi(resp);
+        dealer_discount_rs = stoi(remove_punc(resp));
 
         while(dealer_discount_rs > 0)
         {
             printf("Any one of the additional features have to be added and 0 discount has to be added. \n");
             cout << "Dealer Discount: ";
             cin >> resp;
-            for (int i = 0, len = resp.size(); i < len; i++)
-            {
-                if (ispunct(resp[i]))
-                {
-                    resp.erase(i--, 1);
-                    len = resp.size();
-                }
-            }
-            dealer_discount_rs = stoi(resp);
+            dealer_discount_rs = stoi(remove_punc(resp));
         }
         discounted_rs = 0;
     }
