@@ -23,7 +23,6 @@ enum vehicle_model
     RESERVED
 };
 
-
 vehicle_model car_model_enum;
 map<vehicle_model,double> vehicle_db;
 
@@ -41,7 +40,6 @@ int          final_price                  = 0;
 
 //Final discount
 double       discounted_rs         = 0;
-
 
 //Initializing car models price
 void setup_map()
@@ -231,7 +229,6 @@ void get_dealerDiscount()
             }
             discounted_rs = discount;
         }
-<<<<<<< HEAD
         else
         {
             for (int i = 0, len = resp.size(); i < len; i++)
@@ -260,8 +257,6 @@ void get_dealerDiscount()
         }
         discounted_rs = dealer_discount_rs;
         }
-=======
->>>>>>> 7b18c9bdcc9ec3ed417f4ca3b68be852607ee5f5
     }
     else
     {
