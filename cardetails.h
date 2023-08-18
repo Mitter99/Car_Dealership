@@ -231,6 +231,7 @@ void get_dealerDiscount()
             }
             discounted_rs = discount;
         }
+<<<<<<< HEAD
         else
         {
             for (int i = 0, len = resp.size(); i < len; i++)
@@ -259,6 +260,8 @@ void get_dealerDiscount()
         }
         discounted_rs = dealer_discount_rs;
         }
+=======
+>>>>>>> 7b18c9bdcc9ec3ed417f4ca3b68be852607ee5f5
     }
     else
     {
