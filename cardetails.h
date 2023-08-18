@@ -23,6 +23,7 @@ enum vehicle_model
     RESERVED
 };
 
+
 vehicle_model car_model_enum;
 map<vehicle_model,double> vehicle_db;
 
