@@ -222,17 +222,14 @@ void get_dealerDiscount()
                 {
                     dealer_discount_per = stoi(remove_punc(resp));
                     discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
-                    discounted_rs = discount;
-                    break;
+                    //discounted_rs = discount;
                 }
                 else
                 {
                     discount = stoi(remove_punc(resp));
-                    discounted_rs = discount;
-                    break;
+                    //discounted_rs = discount;
                 }
-                continue;
-            //discounted_rs = discount;
+                discounted_rs = discount;
             }
         }
         else
@@ -247,18 +244,15 @@ void get_dealerDiscount()
                 {
                     dealer_discount_per = stoi(remove_punc(resp));
                     discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
-                    discounted_rs = discount;
-                    break;
+                    dealer_discount_rs = discount;
                 }
                 else
                 {
                     dealer_discount_rs = stoi(remove_punc(resp));
-                    break;
                 }
 
-                continue;
             }
-        //discounted_rs = dealer_discount_rs;
+            discounted_rs = dealer_discount_rs;
         }
     }
     else
