@@ -10,6 +10,7 @@
 using namespace std;
 
 #define assertm(exp, msg) assert(((void)msg, exp))
+#define MAX_DISCOUNT 30000
 
 enum vehicle_model
 {
@@ -39,7 +40,21 @@ int          dealer_discount_per          = 0;
 int          final_price                  = 0;
 
 //Final discount
-double       discounted_rs         = 0;
+double       discounted_rs                = 0;
+
+//Function prototyping
+void setup_map();
+void reset();
+void convert_car_model_to_enum();
+void print_menu_car_price();
+void print_menu_extra_price();
+void get_car_model();
+void get_insurance();
+void get_accessories();
+string remove_punc(string resp);
+void get_dealerDiscount();
+void print_finalPrice();
+
 
 //Initializing car models price
 void setup_map()
@@ -72,34 +87,35 @@ void convert_car_model_to_enum()
     {
         car_model_enum = POLO_TRENDLINE;
     }
-    else if(car_model == "Polo Highline")   // Need to do the above things for other condition
+    else if(car_model == "Polo Highline" || car_model == "polo highline" || car_model == "Polo highline")
     {
         car_model_enum = POLO_HIGHLINE;
     }
-    else if(car_model == "Virtus Trendline")
+    else if(car_model == "Virtus Trendline" || car_model == "virtus trendline" || car_model == "Virtus trendline")
     {
         car_model_enum = VIRTUS_TRENDLINE;
     }
-    else if(car_model == "Virtus Highline")
+    else if(car_model == "Virtus Highline" || car_model == "virtus highline" || car_model == "Virtus highline")
     {
         car_model_enum = VIRTUS_HIGHLINE;
     }
-    else if(car_model == "Taigun Trendline")
+    else if(car_model == "Taigun Trendline" || car_model == "taigun trendline" || car_model == "Taigun trendline")
     {
         car_model_enum = TAIGUN_TRENDLINE;
     }
-    else if(car_model == "Taigun Highline")
+    else if(car_model == "Taigun Highline" || car_model == "taigun highline" || car_model == "Taigun highline")
     {
         car_model_enum = TAIGUN_HIGLINE;
     }
-    else if(car_model == "Taigun Topline")
+    else if(car_model == "Taigun Topline" || car_model == "taigun topline" || car_model == "Taigun topline")
     {
         car_model_enum = TAIGUN_TOPLINE;
     }
     else
     {
         car_model_enum = RESERVED;
-        assertm(false,"Unexpected Car model"); // Unexpected input
+        printf("Please choose car model from above list: \n"); // Unexpected input
+        get_car_model();
     }
 }
 
@@ -116,6 +132,7 @@ void print_menu_car_price()
     printf(" |%-20s| %-20s|\n", "Virtus Highline", "13.08 lakh");
     printf(" |%-20s| %-20s|\n", "Taigun Trendline", "14.89 lakh");
     printf(" |%-20s| %-20s|\n", "Taigun Highline", "15.42 lakh");
+    printf(" |%-20s| %-20s|\n", "Taigun Topline", "17.71 lakh");
     printf("---------------------------------------------\n \n \n");
 
 }
@@ -160,8 +177,9 @@ void get_insurance()
     }
     else
     {
-        printf("Wrong response");
-        assertm(false,"Unexpectd Insurance input");
+        printf("Input Valid: [Yes/No] \n");
+        //recursively call same until correct response come
+        get_insurance();
     }
     printf("\n");
 }
@@ -182,12 +200,14 @@ void get_accessories()
     }
     else
     {
-        printf("Wrong response");
-        assertm(false, "Unexpected Accessories input");
+        printf("Input Valid: [Yes/No] \n");
+        //recursively call same until correct response come
+        get_accessories();
     }
     printf("\n");
 }
 
+// Function to remove punctual from string
 string remove_punc(string resp)
 {
     for (int i = 0, len = resp.size(); i < len; i++)
@@ -213,21 +233,19 @@ void get_dealerDiscount()
         if(resp[resp.length()-1] == '%')
         {
             dealer_discount_per = stoi(remove_punc(resp));
-            discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
-            while(discount > 30000)
+            discount            = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+            while(discount > MAX_DISCOUNT)
             {
                 printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
                 cin >> resp;
                 if(resp[resp.length()-1] == '%')
                 {
                     dealer_discount_per = stoi(remove_punc(resp));
-                    discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
-                    //discounted_rs = discount;
+                    discount            = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
                 }
                 else
                 {
                     discount = stoi(remove_punc(resp));
-                    //discounted_rs = discount;
                 }
                 discounted_rs = discount;
             }
@@ -235,7 +253,7 @@ void get_dealerDiscount()
         else
         {
             dealer_discount_rs = stoi(remove_punc(resp));
-            while(dealer_discount_rs > 30000)
+            while(dealer_discount_rs > MAX_DISCOUNT)
             {
                 printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
                 cin >> resp;
@@ -243,8 +261,8 @@ void get_dealerDiscount()
                 if(resp[resp.length()-1] == '%')
                 {
                     dealer_discount_per = stoi(remove_punc(resp));
-                    discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
-                    dealer_discount_rs = discount;
+                    discount            = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+                    dealer_discount_rs   = discount;
                 }
                 else
                 {
@@ -274,19 +292,14 @@ void get_dealerDiscount()
     printf("\n");
 }
 
-
-
-
 //Function to print the final price
 void print_finalPrice()
 {
     final_price = 0;
     final_price =  vehicle_db[car_model_enum] + Rto + Tcs;
     final_price =  final_price + (insurance_opt ? Ins : 0);
-    final_price = final_price  + (accs_opt ? Acc : 0);
-    final_price = final_price  - discounted_rs;
-    /*printf("Total Cost: %d (%s : %.2f + %d(RTO) + %d(TCS) + %d(Insurance) + %d(Additional Accessories) - %d(Dealer Discount) \n \n",
-           final_price,car_model, vehicle_db[car_model_enum], Rto, Tcs, Ins, Acc, dealer_discount_rs);*/
+    final_price =  final_price  + (accs_opt ? Acc : 0);
+    final_price =  final_price  - discounted_rs;
 
     //We can print the price with comma separator but need to implement the logic
     cout<<setprecision(2)<<fixed<<"Total Cost: "<<final_price<<"("<<car_model<<": "<<vehicle_db[car_model_enum]
