@@ -218,12 +218,22 @@ void get_dealerDiscount()
             {
                 printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
                 cin >> resp;
-
-                dealer_discount_per = stoi(remove_punc(resp));
-                discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+                if(resp[resp.length()-1] == '%')
+                {
+                    dealer_discount_per = stoi(remove_punc(resp));
+                    discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+                    discounted_rs = discount;
+                    break;
+                }
+                else
+                {
+                    discount = stoi(remove_punc(resp));
+                    discounted_rs = discount;
+                    break;
+                }
                 continue;
+            //discounted_rs = discount;
             }
-            discounted_rs = discount;
         }
         else
         {
@@ -233,10 +243,22 @@ void get_dealerDiscount()
                 printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
                 cin >> resp;
 
-                dealer_discount_rs = stoi(remove_punc(resp));
+                if(resp[resp.length()-1] == '%')
+                {
+                    dealer_discount_per = stoi(remove_punc(resp));
+                    discount = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+                    discounted_rs = discount;
+                    break;
+                }
+                else
+                {
+                    dealer_discount_rs = stoi(remove_punc(resp));
+                    break;
+                }
+
                 continue;
             }
-        discounted_rs = dealer_discount_rs;
+        //discounted_rs = dealer_discount_rs;
         }
     }
     else
