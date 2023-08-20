@@ -80,6 +80,29 @@ void reset()
     car_model_enum          = RESERVED;
 }
 
+//Function to convert number to Indian currency foramt
+string ind_for(int num)
+{
+    string its = to_string(num);
+    string csi;
+    int count = 0;
+
+    for(int i= its.size() - 1; i >= 0 ; i--)
+    {
+        if(count == 3)
+        {
+            csi = ',' + csi;
+        }
+        else if(count != 1 && count%2 == 1)
+        {
+            csi = ',' + csi;
+        }
+        csi = its[i] + csi;
+        count++;
+    }
+    return csi;
+}
+
 //Function to convert input name to corresponding enum value
 void convert_car_model_to_enum()
 {
@@ -247,8 +270,8 @@ void get_dealerDiscount()
                 {
                     discount = stoi(remove_punc(resp));
                 }
-                discounted_rs = discount;
             }
+            discounted_rs = discount;
         }
         else
         {
@@ -302,8 +325,8 @@ void print_finalPrice()
     final_price =  final_price  - discounted_rs;
 
     //We can print the price with comma separator but need to implement the logic
-    cout<<setprecision(2)<<fixed<<"Total Cost: "<<final_price<<"("<<car_model<<": "<<vehicle_db[car_model_enum]
-        <<" + "<<Rto<<"(RTO)"<<" + "<<Tcs<<"(TCS)"<<" + "<<Acc<<"(Additional Accessories)"<<" - "<<discounted_rs
+    cout<<setprecision(2)<<fixed<<"Total Cost: "<<ind_for(final_price)<<"("<<car_model<<": "<<ind_for(vehicle_db[car_model_enum])
+        <<" + "<<ind_for(Rto)<<"(RTO)"<<" + "<<ind_for(Tcs)<<"(TCS)"<<" + "<<ind_for(Acc)<<"(Additional Accessories)"<<" - "<<ind_for(discounted_rs)
         <<"(Dealer Discount)"<<endl<<endl<<endl;
 
     cin.get();
