@@ -45,6 +45,7 @@ double       discounted_rs                = 0;
 //Function prototyping
 void setup_map();
 void reset();
+string ind_for(int num);
 void convert_car_model_to_enum();
 void print_menu_car_price();
 void print_menu_extra_price();
@@ -52,7 +53,7 @@ void get_car_model();
 void get_insurance();
 void get_accessories();
 string remove_punc(string resp);
-void get_dealerDiscount();
+int get_dealerDiscount();
 void print_finalPrice();
 
 
@@ -245,26 +246,51 @@ string remove_punc(string resp)
 }
 
 //Function to calculate the discount
-void get_dealerDiscount()
+int get_dealerDiscount()
 {
     string resp;
-    if(accs_opt == true || insurance_opt == true)
+    if(accs_opt == true || insurance_opt == true)   //To check accs or insurance is TRUE
     {
         double discount;
+        string decide_discount;
         cout <<"Dealer Discount: ";
         cin >> resp;
-        if(resp[resp.length()-1] == '%')
+        if(resp[resp.length()-1] == '%')            // To check value is in %
         {
             dealer_discount_per = stoi(remove_punc(resp));
             discount            = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+
+            cout << "The discounted price is: " << discount << "\n";
+            printf("If you want to proceed with current discount press[Yes/Y] else press[No/N]: ");
+            cin >> decide_discount;
+            if(decide_discount == "Yes" || decide_discount == "Y" || decide_discount == "y")        //Check YES to proceed
+            {
+                //Do nothing
+            }
+            else if(decide_discount == "No" || decide_discount == "N" || decide_discount == "n")    //To check NO
+            {
+                discount = get_dealerDiscount();
+            }
+
             while(discount > MAX_DISCOUNT)
             {
                 printf("Maximum discount can't be > Rs. 30000, provide discount < Rs. 30000: ");
                 cin >> resp;
-                if(resp[resp.length()-1] == '%')
+                if(resp[resp.length()-1] == '%')                // Condition to check if the value is in % after giving max normal value
                 {
                     dealer_discount_per = stoi(remove_punc(resp));
                     discount            = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
+                    cout << "The discounted price is: " << discount << "\n";
+                    printf("If you want to proceed with current discount press[Yes/Y] else press[No/N]: ");
+                    cin >> decide_discount;
+                    if(decide_discount == "Yes" || decide_discount == "Y" || decide_discount == "y")        //Check YES to proceed
+                    {
+                        //Do nothing
+                    }
+                    else if(decide_discount == "No" || decide_discount == "N" || decide_discount == "n")    //To check NO
+                    {
+                        discount = get_dealerDiscount();
+                    }
                 }
                 else
                 {
@@ -286,6 +312,17 @@ void get_dealerDiscount()
                     dealer_discount_per = stoi(remove_punc(resp));
                     discount            = vehicle_db[car_model_enum] * ((double)dealer_discount_per/100);
                     dealer_discount_rs   = discount;
+                    cout << "The discounted price is: " << discount << "\n";
+                    printf("If you want to proceed with current discount press[Yes/Y] else press[No/N]: ");
+                    cin >> decide_discount;
+                    if(decide_discount == "Yes" || decide_discount == "Y" || decide_discount == "y")
+                    {
+                        //Do nothing
+                    }
+                    else if(decide_discount == "No" || decide_discount == "N" || decide_discount == "n")
+                    {
+                        dealer_discount_rs = get_dealerDiscount();
+                    }
                 }
                 else
                 {
@@ -313,6 +350,7 @@ void get_dealerDiscount()
         discounted_rs = 0;
     }
     printf("\n");
+    return discounted_rs;
 }
 
 //Function to print the final price
